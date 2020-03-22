@@ -1,0 +1,85 @@
+﻿
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>海文 在线短信平台</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/sms.css}" />
+</head>
+
+<body>
+	<div id="regTitle" class="png"></div>
+	<div id="regForm" class="userForm png">
+
+		<form action="" method="post" id="register">
+			<dl>
+				<div id="error">错误信息</div>
+				<dt>用 户 名：</dt>
+				<dd>
+					<input type="text" name="name" />
+				</dd>
+				<dt>密 码：</dt>
+				<dd>
+					<input type="password" name="pwd" />
+				</dd>
+				<dt>确认密码：</dt>
+				<dd>
+					<input type="password" name="affirm" />
+				</dd>
+				<dt>邮 箱：</dt>
+				<dd>
+					<input type="text" name="email" />
+				</dd>
+				<dt>验证码：</dt>
+				<dd id="code" style="margin-top: 16px"></dd>
+			</dl>
+			<div class="buttons">
+				<input class="btn-reg png" type="button" id="check-btn2" name="register" value=" " /><input
+					class="btn-reset png" type="reset" name="reset" value=" " />
+			</div>
+			<div class="goback">
+				<a th:href="@{/index.html}" class="png">返回登录页</a>
+			</div>
+		</form>
+	</div>
+<script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+<script th:src="@{/scripts/verify.min.js}"></script>
+<script th:src="@{/scripts/sweetalert.min.js}"></script>
+<script th:src="@{https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js}"></script>
+<script>
+	$('#code').codeVerify({
+		type : 2,
+		figure : 100,	//位数，仅在type=2时生效
+		arith : 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
+		width : '140px',
+		height : '30px',
+		fontSize : '25px',
+		btnId : 'check-btn2',
+		ready : function() {
+		},
+		success : function() {
+			$("#error").html("");
+			register()
+		},
+		error : function() {
+			$("#error").html("验证码错误");
+		}
+	});
+	function register(){
+		$.ajax({
+			contentType : "application/json",
+			data : JSON.stringify($("#register").serializeJSON()),
+			url : "/user",
+			type : "post",
+			success : function (data) {
+				if (data.code===0){
+					alert("成功")
+				}
+			}
+		})
+	}
+	$(function () {
+		$(".verify-change-code").empty();
+	})
+</script>
+</body>
+</html>

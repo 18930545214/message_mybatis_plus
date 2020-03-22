@@ -1,0 +1,32 @@
+﻿
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>读短消息</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/sms.css}" />
+
+</head>
+<body>
+	<div id="main">
+		<div class="mainbox">
+			<div class="title readMessage png"></div>
+			<!--右上角导航栏  -->
+			<div th:replace="~{pages/menu :: .menu}"></div>
+			<div class="content">
+				<div class="message">
+					<div class="tmenu">
+						<ul class="clearfix">
+							<li>题目：</li>
+							<li>来自：</li>
+							<li>时间</li>
+						</ul>
+					</div>
+					<div class="view">
+						<p>短消息内容</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>短消息平台</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/sms.css}" />
+
+</head>
+<body>
+	<div id="loginTitle" class="png"></div>
+	<div id="loginForm" class="userForm png">
+		<form action="#" method="get" id="login">
+			<dl>
+				<div id="error"></div>
+				<dt>用户名：</dt>
+				<dd>
+					<input type="text" name="name" />
+				</dd>
+				<dt>密 码：</dt>
+				<dd>
+					<input type="password" name="pwd" />
+				</dd>
+				
+			</dl>
+			<div class="buttons">
+				<input class="btn-login png" type="button" id="login_btn" value=" " />
+				<a href="#" th:href="@{/pages/register.html}" ><input class="btn-reg png" type="button" name="register" value=" " /></a>
+			</div>
+		</form>
+	</div>
+
+	<script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/scripts/verify.min.js}"></script>
+	<script th:src="@{https://cdn.bootcss.com/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js}"></script>
+	<script>
+		$("#login_btn").click(function () {
+			$.ajax({
+				data : $("#login").serialize(),
+				url : "/user",
+				type : "get",
+				dataType : "json",
+				success : function (data) {
+					if (data.data===null){
+						location.href="/pages/main.html";
+					}else {
+						$("#error").html(data.data);
+					}
+				}
+			})
+		});
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

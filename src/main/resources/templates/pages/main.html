@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>海文在线短信平台</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/sms.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/jquery.pagination.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/sweetalert.css}"/>
+</head>
+<body>
+
+<div id="main">
+    <div class="mainbox">
+        <!-- 用来存放用户id,设置透明度0,网页看不到,等于隐藏 -->
+        <div id="user" style="opacity: 0"><shiro:principal property="id" /></div>
+        <!-- 左上角图片展示 -->
+        <div class="title myMessage png"></div>
+        <!-- 右上角导航栏 -->
+        <div th:replace="~{pages/menu :: .menu}"></div>
+        <!-- 错误信息 -->
+        <div id="error"></div>
+        <!-- 短消息列表 -->
+        <div class="content messageList">
+            <ul>
+                <!--<li class="unReaded">
+                    <em>2015-01-01</em>
+                    <em><a href="#">回信</a></em>
+                    <em><a href="#">删除</a></em>
+                    <p>
+                        <strong><a href="#">新闻标题</a></strong>
+                        新闻内容超过8个后面跟...
+                    </p>
+                </li>-->
+            </ul>
+        </div>
+        <!--分页栏 -->
+        <div th:align="center" style="margin-top:10px" id="pagination">
+            <!--<a href="#">首页</a>&nbsp;&nbsp;&nbsp;
+            <a href="#">上一页</a>&nbsp;&nbsp;
+            <span></span>&nbsp;/<span></span>&nbsp;&nbsp;
+            <a href="#">下一页</a>&nbsp;&nbsp;
+            <a href="#">最后一页</a>-->
+        </div>
+    </div>
+</div>
+<script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+<script th:src="@{/scripts/sweetalert.min.js}"></script>
+<script th:src="@{/scripts/jquery.pagination.min.js}"></script>
+<script>
+    $(function () {
+        selectAll(1,5);
+    });
+    /**
+     * 分页查询短消息,内涵分页插件
+     * @param current 当前页
+     * @param size 每页记录数
+     */
+    function selectAll(current, size) {
+        var id = $("#user").html();
+        var data = {
+            "current": current,
+            "size": size,
+            "receiveId" : id
+        };
+        $.ajax({
+            data: data,
+            url: "/message",
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                $("#user").empty();
+                var messages = data.data.records;
+                var page = data.data;
+                if ( messages!== null) {
+                    //此代码要使用jquery进行拼接
+                    var ul = $(".messageList > ul");// 找到ul元素
+                    ul.empty();// 清空ul元素中的内容
+                    // 循环创建li元素
+                    for (var i = 0; i < messages.length; i++) {
+                        var msg = messages[i];//取出消息
+                        var li = "";
+                        if (msg.state === 1) {
+                            li = $("<li class='unReaded'></li>");
+                        } else {
+                            li = $("<li></li>");
+                        }
+                        var em1 = $("<em>" + msg.msgCreateDate + "</em>");
+                        var em2 = $("<em><a href='newMsg.html?"+ msg.sendId +"'>回信</a></em>");
+                        var em3 = $("<em><a href='javascript:deleteById(" + msg.id + ")'>删除</em>");
+                        var p = $("<p></p>");
+                        var strong = $("<strong>" + msg.title + "</strong>");
+                        var a = "";
+                        if (msg.msgContent.length > 8) {
+                            a = $("<a href='javascript:showMessageById(" + msg.id + ")'>" + msg.msgContent.substring(0, 8) + ".....</a>");
+                        } else {
+                            a = $("<a href='javascript:showMessageById(" + msg.id + ")'>" + msg.msgContent + "</a>");
+                        }
+                        p.append(strong).append(a);
+                        li.append(em1).append(em2).append(em3).append(p);
+                        ul.append(li);
+                    }
+                    /**
+                     * 分页插件
+                     */
+                    $("#pagination").pagination({
+                        currentPage: current,
+                        totalPage: Math.ceil(page.total/size),
+                        callback: function(current) {
+                            selectAll(current,size)
+                        }
+                    });
+                } else {
+                    $("#error").html("你还没有收到过消息");
+                }
+            }
+        })
+    }
+    /**
+     * 删除一条记录
+     * @param id 主键
+     */
+    function deleteById(id) {
+        $.ajax({
+            type : "post",
+            url : "/message",
+            dataType : "json",
+            data : {"_method":"delete","id":id},
+            success : function (data) {
+                if (data.data){
+                    selectAll(1,5);
+                    swal("Good!", "删除成功", "success");
+                }else {
+                    swal("OMG!", "删除失败", "error");
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

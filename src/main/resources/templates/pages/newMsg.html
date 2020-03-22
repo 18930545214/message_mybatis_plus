@@ -1,0 +1,67 @@
+﻿
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>海文 在线短信平台</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/sms.css}" />
+</head>
+<body>
+	<form action="#" method="post">
+		<div id="main">
+			<div class="mainbox">
+				<!--右上角导航栏  -->
+				<div th:replace="~{pages/menu :: .menu}"></div>
+				<div class="content">
+					<div class="message">
+
+						<div class="tmenu">
+							<ul class="clearfix">
+								<li>发送给：
+									<select name="toUser" id="toUser">
+										<option selected="selected">test1</option>
+										<option>test2</option>
+									</select>
+								</li>
+								<li>标题：<input type="text" name="title" id="title" /></li>
+							</ul>
+						</div>
+						<div class="view">
+							<textarea name="content" id="content"></textarea>
+							<div class="send">
+								<input type="submit" name="submit" value=" " />
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/scripts/sweetalert.min.js}"></script>
+	<script>
+		var sendId = window.location.href.split("?")[1];
+		$.ajax({
+			url : "/user/selectAll",
+			type : "get",
+			success : function (data) {
+				var user = data.data;
+				if (user!==null){
+					var toUser = $("#toUser");
+					toUser.empty();
+					for(var i=0;i<=user.length;i++) {
+						if(user[i].id===sendId) {
+							var option1 = $("<option selected='selected'>" + user[i].id + "</option>");
+						}else{
+							var option2 = $("<option>" + user[i].name + "</option>");
+						}
+						toUser.append(option1).append(option2);
+					}
+				}else {
+					alert(2)
+				}
+			}
+		})
+	</script>
+</body>
+</html>

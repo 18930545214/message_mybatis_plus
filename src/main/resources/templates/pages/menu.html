@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>海文在线短信平台</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/sms.css}"/>
+</head>
+<body>
+    <div class="menu">
+        <span>当前用户：<a th:href="@{/pages/main.html}"><shiro:principal property="name" /></a></span>
+        <span><a th:href="@{/pages/newMsg.html}">发短消息</a></span> <span><a th:href="@{/logout}">退出</a></span>
+    </div>
+</body>
+
