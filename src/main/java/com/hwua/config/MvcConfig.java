@@ -14,13 +14,13 @@ public class MvcConfig {
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
                 //注册映射路径到指定的视图
-                registry.addViewController("/pages/register.html").setViewName("pages/register");
                 registry.addViewController("/pages/main.html").setViewName("pages/main");
                 registry.addViewController("/pages/menu.html").setViewName("pages/menu");
                 registry.addViewController("/pages/readMsg.html").setViewName("pages/readMsg");
                 registry.addViewController("/pages/newMsg.html").setViewName("pages/newMsg");
                 registry.addViewController("/index.html").setViewName("index");
                 registry.addViewController("/error.html").setViewName("error");
+                registry.addViewController("/register.html").setViewName("register");
             }
         };
     }

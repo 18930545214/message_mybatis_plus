@@ -40,14 +40,8 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SessionsSecurityManager securityManager) throws Exception{
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
         filterFactoryBean.setSecurityManager(securityManager);
-        filterFactoryBean.setLoginUrl("/index.html");//当认证失败，跳转到login.jsp页面
-        filterFactoryBean.setUnauthorizedUrl("/error.html");
+        filterFactoryBean.setLoginUrl("/index.html");//当认证失败，跳转到index.jsp页面
         Map<String,String> shiroFilterChainMap = new LinkedHashMap<>();
-        shiroFilterChainMap.put("/index**","anon");//此过滤器代表不用认证，直接可以访问register
-        shiroFilterChainMap.put("/error","anon");//此过滤器代表不用认证，直接可以访问
-        shiroFilterChainMap.put("/pages/register**","anon");//此过滤器代表不用认证，直接可以访问
-        shiroFilterChainMap.put("/pages/main","anon");//此过滤器代表不用认证，直接可以访问
-        shiroFilterChainMap.put("/user","anon");//此过滤器代表不用认证，直接可以访问
         shiroFilterChainMap.put("/logout","logout");//此路径的话直接进行登出,回到LoginUrl 指定的页面
         shiroFilterChainMap.put("/pages/**","authc");//此过滤器代表认证过滤器，也就是说，此url必须登录后才能访问
         filterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainMap);

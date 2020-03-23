@@ -89,29 +89,34 @@
 			});
 			$("#send").click(function () {
 				var message = {
-					"sendId" : $("#toUser option:selected").val(),
+					"sendId" : $("#user").html(),
 					"title" : $("#title").val(),
 					"msgContent" : $("#content").val(),
 					"state" : 1,
-					"receiveId" : $("#user").html(),
+					"receiveId" : $("#toUser option:selected").val(),
 					"msgCreateDate" : new Date().Format("yyyy-MM-dd HH:mm:ss")
-			};
-				$.ajax({
-					contentType : "application/json",
-					data : JSON.stringify(message),
-					url : "/message",
-					type : "post",
-					dataType : "json",
-					success : function (data) {
-						if (data.data){
-							$("#title").val("");
-							$("#content").val("");
-							swal("Good!", "发送成功成功", "success");
-						}else {
-							swal("OMG!", "发送失败", "error");
+				};
+				if (message.msgContent!==""&&message.title!==""){
+					$.ajax({
+						contentType : "application/json",
+						data : JSON.stringify(message),
+						url : "/message",
+						type : "post",
+						dataType : "json",
+						success : function (data) {
+							if (data.data){
+								$("#title").val("");
+								$("#content").val("");
+								swal("Good!", "发送成功成功", "success");
+							}else {
+								swal("OMG!", "发送失败", "error");
+							}
 						}
-					}
-				})
+					})
+				}else {
+					swal("请输入有效内容!", "发送失败", "error");
+				}
+
 			})
 		});
 	</script>
