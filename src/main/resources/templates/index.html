@@ -36,7 +36,7 @@
 		$("#login_btn").click(function () {
 			$.ajax({
 				data : $("#login").serialize(),
-				url : "/user",
+				url : "/user/login",
 				type : "get",
 				dataType : "json",
 				success : function (data) {
@@ -48,6 +48,8 @@
 				}
 			})
 		});
+		$(function () {
+		})
 	</script>
 </body>
 </html>

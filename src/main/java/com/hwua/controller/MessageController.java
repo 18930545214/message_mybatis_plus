@@ -9,10 +9,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hwua.entity.Message;
 import com.hwua.service.MessageService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * (Message)表控制层
@@ -37,18 +37,19 @@ public class MessageController extends ApiController {
      */
     @GetMapping
     public R selectAll(Page<Message> page,Message message) {
-        return success(this.messageService.page(page, new QueryWrapper<>(message)));
+        return success(this.messageService.page(page,new QueryWrapper<>(message).orderByDesc("MSG_CREATE_DATE")));
     }
 
     /**
      * 通过主键查询单条数据
      *
      * @param id 主键
-     * @return 单条数据
+     * @return 数据模型
      */
     @GetMapping("{id}")
-    public R selectOne(@PathVariable Serializable id) {
-        return success(this.messageService.getById(id));
+    public ModelAndView selectOne(@PathVariable Serializable id) {
+        Message message = messageService.getById(id);
+        return new ModelAndView("/pages/readMsg").addObject("message",message);
     }
 
     /**
@@ -59,18 +60,8 @@ public class MessageController extends ApiController {
      */
     @PostMapping
     public R insert(@RequestBody Message message) {
+        System.out.println(message);
         return success(this.messageService.save(message));
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param message 实体对象
-     * @return 修改结果
-     */
-    @PutMapping
-    public R update(@RequestBody Message message) {
-        return success(this.messageService.updateById(message));
     }
 
     /**
@@ -81,7 +72,6 @@ public class MessageController extends ApiController {
      */
     @DeleteMapping
     public R delete(String id) {
-        System.out.println(id);
         return success(this.messageService.removeById(id));
     }
 }

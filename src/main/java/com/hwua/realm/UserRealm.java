@@ -1,5 +1,6 @@
 package com.hwua.realm;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hwua.entity.User;
 import com.hwua.service.UserService;
 import org.apache.shiro.authc.*;
@@ -36,7 +37,9 @@ public class UserRealm extends AuthorizingRealm {
         String username=(String)token.getPrincipal();//获取令牌中传过来的用户名
         User user=null;
         try {
-            user = userService.findByName(username);//从数据中找到的用户信息
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            wrapper.lambda().eq(User::getName,username);
+            user = userService.getOne(wrapper);//从数据中找到的用户信息
         } catch (Exception e) {
             e.printStackTrace();
         }

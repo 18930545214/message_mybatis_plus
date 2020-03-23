@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class User extends Model<User> {
 
     @TableId(type = IdType.AUTO)
-    private Long id = 0L;
+    private Long id;
     
     private String name;
     

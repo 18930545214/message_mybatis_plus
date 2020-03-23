@@ -17,6 +17,7 @@ public class MvcConfig {
                 registry.addViewController("/pages/register.html").setViewName("pages/register");
                 registry.addViewController("/pages/main.html").setViewName("pages/main");
                 registry.addViewController("/pages/menu.html").setViewName("pages/menu");
+                registry.addViewController("/pages/readMsg.html").setViewName("pages/readMsg");
                 registry.addViewController("/pages/newMsg.html").setViewName("pages/newMsg");
                 registry.addViewController("/index.html").setViewName("index");
                 registry.addViewController("/error.html").setViewName("error");

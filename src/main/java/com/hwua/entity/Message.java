@@ -1,10 +1,15 @@
 package com.hwua.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 
 import java.io.Serializable;
+
+import static javax.swing.Action.DEFAULT;
 
 /**
  * (Message)表实体类
@@ -15,7 +20,8 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 @Data
 public class Message extends Model<Message> {
-    
+
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private Long sendId;
@@ -28,8 +34,11 @@ public class Message extends Model<Message> {
 
     private Long receiveId;
 
-    @TableField(value = "msg_Create_Date")
+    @TableField(value = "MSG_CREATE_DATE")
     private String msgCreateDate;
+
+    @TableField(exist = false)
+    private User user;
 
     /**
      * 获取主键值

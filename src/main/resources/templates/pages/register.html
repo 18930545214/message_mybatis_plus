@@ -12,7 +12,7 @@
 
 		<form action="" method="post" id="register">
 			<dl>
-				<div id="error">错误信息</div>
+				<div id="error"></div>
 				<dt>用 户 名：</dt>
 				<dd>
 					<input type="text" name="name" />
@@ -68,7 +68,7 @@
 		$.ajax({
 			contentType : "application/json",
 			data : JSON.stringify($("#register").serializeJSON()),
-			url : "/user",
+			url : "/user/register",
 			type : "post",
 			success : function (data) {
 				if (data.code===0){
@@ -79,7 +79,20 @@
 	}
 	$(function () {
 		$(".verify-change-code").empty();
-	})
+	});
+	$("input[name='name']").blur(function () {
+		$.ajax({
+			data : {"name" : $("[name='name']").val()},
+			url : "/user/queryByName",
+			type : "get",
+			dataType : "json",
+			success : function (data) {
+				if (data.data===null){
+					$("#error").html("用户名已存在");
+				}
+			}
+		})
+	});
 </script>
 </body>
 </html>

@@ -10,7 +10,11 @@ import com.hwua.entity.User;
  * @since 2020-03-21 21:52:01
  */
 public interface UserService extends IService<User> {
-    String login(User user);
-    User findByName(String name);
 
+    /**
+     * 用户登录功能
+     * @param user 实体对象
+     * @return 错误信息
+     */
+    String login(User user);
 }

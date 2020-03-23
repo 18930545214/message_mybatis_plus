@@ -22,15 +22,11 @@ import javax.annotation.Resource;
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
 
-    @Resource
-    UserDao userDao;
-
-    @Override
-    public boolean save(User user) {
-        user.setPwd(MD5Util.md5hash(user.getName(), user.getPwd()));
-        return this.userDao.insert(user) > 0;
-    }
-
+    /**
+     * 用户登录
+     * @param user 实体对象
+     * @return 错误信息
+     */
     @Override
     public String login(User user) {
         String info=null;
@@ -55,12 +51,5 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
             }
         }
         return info;
-    }
-
-    @Override
-    public User findByName(String name) {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(User::getName,name);
-        return userDao.selectOne(wrapper);
     }
 }
