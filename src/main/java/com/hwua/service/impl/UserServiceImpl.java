@@ -1,17 +1,14 @@
 package com.hwua.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hwua.dao.UserDao;
 import com.hwua.entity.User;
 import com.hwua.service.UserService;
-import com.hwua.util.MD5Util;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 
 /**
  * (User)表服务实现类
