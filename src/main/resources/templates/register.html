@@ -118,7 +118,7 @@
 				type : "get",
 				dataType : "json",
 				success : function (data) {
-					if (data.data===null){
+					if (data.code=== 0){
 						$("#error").html("");
 					}else {
 						$("#error").html("用户名已存在");

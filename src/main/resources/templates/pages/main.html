@@ -71,7 +71,7 @@
                 $("#user").empty();
                 var messages = data.data.records;
                 var page = data.data;
-                if ( messages!== null) {
+                if ( data.code=== 0) {
                     //此代码要使用jquery进行拼接
                     var ul = $(".messageList > ul");// 找到ul元素
                     ul.empty();// 清空ul元素中的内容

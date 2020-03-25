@@ -1,5 +1,6 @@
 package com.hwua.config;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

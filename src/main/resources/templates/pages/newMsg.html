@@ -73,7 +73,7 @@
 				type : "get",
 				success : function (data) {
 					var user = data.data;
-					if (user!==null){
+					if (data.code=== 0){
 						var toUser = $("#toUser");
 						toUser.empty();
 						for(var i=0;i<=user.length;i++) {
